@@ -3,6 +3,7 @@ project(HeadFootball)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 3 COMPONENTS Graphics Window System Audio REQUIRED)
 
 include_directories(include)
