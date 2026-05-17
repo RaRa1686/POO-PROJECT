@@ -1,0 +1,46 @@
+name: C++ CI
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: "Ubuntu 22.04 - SFML Build"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build \
+            libfreetype-dev libudev-dev libopenal-dev \
+            libvorbis-dev libflac-dev libgl1-mesa-dev \
+            libxrandr-dev libxcursor-dev libxi-dev
+
+      - name: Install SFML 3
+        run: |
+          git clone --depth 1 --branch 3.0.0 https://github.com/SFML/SFML.git /tmp/SFML
+          cmake -S /tmp/SFML -B /tmp/SFML/build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSFML_BUILD_AUDIO=OFF \
+            -DSFML_BUILD_NETWORK=OFF \
+            -DCMAKE_INSTALL_PREFIX=/usr/local
+          cmake --build /tmp/SFML/build --parallel
+          sudo cmake --install /tmp/SFML/build
+
+      - name: Configure CMake
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Check binary exists
+        run: |
+          ls -la build/HeadFootball
+          echo "Build successful!"
