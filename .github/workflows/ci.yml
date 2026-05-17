@@ -18,24 +18,18 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake ninja-build \
-            libfreetype-dev libudev-dev libopenal-dev \
-            libvorbis-dev libflac-dev libgl1-mesa-dev \
-            libxrandr-dev libxcursor-dev libxi-dev
+          sudo apt-get install -y cmake ninja-build libfreetype-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libgl1-mesa-dev libxrandr-dev libxcursor-dev libxi-dev
 
       - name: Install SFML 3
         run: |
           git clone --depth 1 --branch 3.0.0 https://github.com/SFML/SFML.git /tmp/SFML
-          cmake -S /tmp/SFML -B /tmp/SFML/build \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DSFML_BUILD_AUDIO=OFF \
-            -DSFML_BUILD_NETWORK=OFF \
-            -DCMAKE_INSTALL_PREFIX=/usr/local
+          cmake -S /tmp/SFML -B /tmp/SFML/build -DCMAKE_BUILD_TYPE=Release -DSFML_BUILD_AUDIO=OFF -DSFML_BUILD_NETWORK=OFF -DCMAKE_INSTALL_PREFIX=/usr/local
           cmake --build /tmp/SFML/build --parallel
           sudo cmake --install /tmp/SFML/build
 
       - name: Configure CMake
         run: |
+          pwd
           ls -la
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 
