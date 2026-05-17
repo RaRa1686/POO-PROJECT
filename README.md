@@ -1,6 +1,6 @@
 # 🏆 Head Football
 
-Un joc de fotbal 2D dezvoltat în C++ cu SFML 3, realizat ca proiect pentru cursul de **Programare Orientată pe Obiecte**.
+Un joc de fotbal 2D dezvoltat în C++ cu SFML 3.
 
 ---
 
